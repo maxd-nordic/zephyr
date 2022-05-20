@@ -77,19 +77,6 @@ config ADXL362_TRIGGER_OWN_THREAD
 
 endchoice
 
-config ADXL362_WAKEUP_MODE
-	bool "Wake-up mode"
-	help
-	  This mode is intended for extremely low power consumption,
-	  checking for motion only about six times a second.
-
-config ADXL362_AUTOSLEEP
-	bool "Autosleep feature"
-	help
-	  Enter Wake-Up mode when inactivity is detected,
-	  reenter Measurement mode when activity is detected.
-	  Only applies for Linked and Loop mode, ignored otherwise.
-
 config ADXL362_TRIGGER
 	bool
 

@@ -713,16 +713,16 @@ static int adxl362_chip_init(const struct device *dev)
 		return ret;
 	}
 
-	/* Places the device into measure mode. */
-	uint8_t autosleep = 0;
+	/* Places the device into measure mode, enable wakeup mode and autosleep if desired. */
+	uint8_t use_autosleep = 0;
 	uint8_t wakeup = 0;
-#if defined(CONFIG_ADXL362_WAKEUP_MODE)
-	wakeup = 1;
-#endif
-#if defined(CONFIG_ADXL362_AUTOSLEEP)
-	autosleep = 1;
-#endif
-	ret = adxl362_set_power_mode(dev, 1, wakeup, autosleep);
+	if (IS_ENABLED(DT_INST_PROP(0, wakeup_mode))) {
+		wakeup = 1;
+	}
+	if (IS_ENABLED(DT_INST_PROP(0, autosleep))) {
+		use_autosleep = 1;
+	}
+	ret = adxl362_set_power_mode(dev, 1, wakeup, use_autosleep);
 	if (ret) {
 		return ret;
 	}
