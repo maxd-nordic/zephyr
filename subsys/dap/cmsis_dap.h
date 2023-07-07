@@ -21,7 +21,7 @@
 #include <zephyr/kernel.h>
 
 /* Firmware Version */
-#define DAP_FW_VER				"1.10"
+#define DAP_FW_VER				"2.1.0"
 
 /* DAP Command IDs */
 #define ID_DAP_INFO				0x00U
@@ -35,19 +35,30 @@
 #define ID_DAP_WRITE_ABORT			0x08U
 #define ID_DAP_DELAY				0x09U
 #define ID_DAP_RESET_TARGET			0x0AU
+
 #define ID_DAP_SWJ_PINS				0x10U
 #define ID_DAP_SWJ_CLOCK			0x11U
 #define ID_DAP_SWJ_SEQUENCE			0x12U
+
 #define ID_DAP_SWDP_CONFIGURE			0x13U
+#define ID_DAP_SWDP_SEQUENCE			0x1DU
+
 #define ID_DAP_JTAG_SEQUENCE			0x14U
 #define ID_DAP_JTAG_CONFIGURE			0x15U
 #define ID_DAP_JTAG_IDCODE			0x16U
+
 #define ID_DAP_SWO_TRANSPORT			0x17U
 #define ID_DAP_SWO_MODE				0x18U
 #define ID_DAP_SWO_BAUDRATE			0x19U
 #define ID_DAP_SWO_CONTROL			0x1AU
 #define ID_DAP_SWO_STATUS			0x1BU
 #define ID_DAP_SWO_DATA				0x1CU
+
+#define ID_DAP_UART_TRANSPORT			0x1FU
+#define ID_DAP_UART_CONFIGURE			0x20U
+#define ID_DAP_UART_CONTROL			0x22U
+#define ID_DAP_UART_STATUS			0x23U
+#define ID_DAP_UART_TRANSFER			0x21U
 
 #define ID_DAP_QUEUE_COMMANDS			0x7EU
 #define ID_DAP_EXECUTE_COMMANDS			0x7FU
@@ -70,7 +81,13 @@
 #define DAP_ID_FW_VER				0x04U
 #define DAP_ID_DEVICE_VENDOR			0x05U
 #define DAP_ID_DEVICE_NAME			0x06U
+#define DAP_ID_BOARD_VENDOR			0x07U
+#define DAP_ID_BOARD_NAME			0x08U
+#define DAP_ID_PRODUCT_FW_VER			0x09U
 #define DAP_ID_CAPABILITIES			0xF0U
+#define DAP_ID_TIMESTAMP_CLOCK			0xF1U
+#define DAP_ID_UART_RX_BUFFER_SIZE		0xFBU
+#define DAP_ID_UART_TX_BUFFER_SIZE		0xFCU
 #define DAP_ID_SWO_BUFFER_SIZE			0xFDU
 #define DAP_ID_PACKET_COUNT			0xFEU
 #define DAP_ID_PACKET_SIZE			0xFFU
