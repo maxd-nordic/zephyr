@@ -78,13 +78,15 @@ static uint16_t dap_info(struct dap_context *const ctx,
 	switch (id) {
 	case DAP_ID_VENDOR:
 		LOG_DBG("ID_VENDOR");
-		memcpy(info, CONFIG_CMSIS_DAP_PROBE_VENDOR, sizeof(CONFIG_CMSIS_DAP_PROBE_VENDOR));
-		length = (uint8_t)sizeof(CONFIG_CMSIS_DAP_PROBE_VENDOR);
+		memcpy(info, CONFIG_CMSIS_DAP_PROBE_VENDOR,
+		      sizeof(CONFIG_CMSIS_DAP_PROBE_VENDOR));
+		length = sizeof(CONFIG_CMSIS_DAP_PROBE_VENDOR);
 		break;
 	case DAP_ID_PRODUCT:
 		LOG_DBG("ID_PRODUCT");
-		memcpy(info, CONFIG_CMSIS_DAP_PROBE_NAME, sizeof(CONFIG_CMSIS_DAP_PROBE_NAME));
-		length = (uint8_t)sizeof(CONFIG_CMSIS_DAP_PROBE_NAME);
+		memcpy(info, CONFIG_CMSIS_DAP_PROBE_NAME,
+		      sizeof(CONFIG_CMSIS_DAP_PROBE_NAME));
+		length = sizeof(CONFIG_CMSIS_DAP_PROBE_NAME);
 		break;
 	case DAP_ID_SER_NUM:
 		/* optional to implement */
@@ -93,26 +95,30 @@ static uint16_t dap_info(struct dap_context *const ctx,
 	case DAP_ID_FW_VER:
 		LOG_DBG("ID_FW_VER");
 		memcpy(info, DAP_FW_VER, sizeof(DAP_FW_VER));
-		length = (uint8_t)sizeof(DAP_FW_VER);
+		length = sizeof(DAP_FW_VER);
 		break;
 	case DAP_ID_DEVICE_VENDOR:
 		LOG_DBG("ID_DEVICE_VENDOR");
-		memcpy(info, CONFIG_CMSIS_DAP_DEVICE_VENDOR, sizeof(CONFIG_CMSIS_DAP_DEVICE_VENDOR));
-		length = (uint8_t)sizeof(CONFIG_CMSIS_DAP_DEVICE_VENDOR);
+		memcpy(info, CONFIG_CMSIS_DAP_DEVICE_VENDOR,
+		      sizeof(CONFIG_CMSIS_DAP_DEVICE_VENDOR));
+		length = sizeof(CONFIG_CMSIS_DAP_DEVICE_VENDOR);
 		break;
 	case DAP_ID_DEVICE_NAME:
 		LOG_DBG("ID_DEVICE_NAME");
-		memcpy(info, CONFIG_CMSIS_DAP_DEVICE_NAME, sizeof(CONFIG_CMSIS_DAP_DEVICE_NAME));
-		length = (uint8_t)sizeof(CONFIG_CMSIS_DAP_DEVICE_NAME);
+		memcpy(info, CONFIG_CMSIS_DAP_DEVICE_NAME,
+		      sizeof(CONFIG_CMSIS_DAP_DEVICE_NAME));
+		length = sizeof(CONFIG_CMSIS_DAP_DEVICE_NAME);
 		break;
 	case DAP_ID_BOARD_VENDOR:
 		LOG_DBG("ID_BOARD_VENDOR");
-		memcpy(info, CONFIG_CMSIS_DAP_BOARD_VENDOR, sizeof(CONFIG_CMSIS_DAP_BOARD_VENDOR));
-		length = (uint8_t)sizeof(CONFIG_CMSIS_DAP_BOARD_VENDOR);
+		memcpy(info, CONFIG_CMSIS_DAP_BOARD_VENDOR,
+		      sizeof(CONFIG_CMSIS_DAP_BOARD_VENDOR));
+		length = sizeof(CONFIG_CMSIS_DAP_BOARD_VENDOR);
 		break;
 	case DAP_ID_BOARD_NAME:
-		memcpy(info, CONFIG_CMSIS_DAP_BOARD_NAME, sizeof(CONFIG_CMSIS_DAP_BOARD_NAME));
-		length = (uint8_t)sizeof(CONFIG_CMSIS_DAP_BOARD_NAME);
+		memcpy(info, CONFIG_CMSIS_DAP_BOARD_NAME,
+		      sizeof(CONFIG_CMSIS_DAP_BOARD_NAME));
+		length = sizeof(CONFIG_CMSIS_DAP_BOARD_NAME);
 		LOG_DBG("ID_BOARD_NAME");
 		break;
 	case DAP_ID_PRODUCT_FW_VER:
@@ -151,7 +157,7 @@ static uint16_t dap_info(struct dap_context *const ctx,
 		break;
 	}
 
-	response[0] = (uint8_t)length;
+	response[0] = length;
 
 	return length + 1U;
 }

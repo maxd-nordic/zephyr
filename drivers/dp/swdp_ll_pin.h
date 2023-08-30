@@ -14,8 +14,7 @@
 #endif
 
 #if defined(CONFIG_SOC_SERIES_NRF52X) \
-	|| defined(CONFIG_SOC_SERIES_NRF53X) \
-	|| defined(CONFIG_SOC_FAMILY_LPC)
+	|| defined(CONFIG_SOC_SERIES_NRF53X)
 #define FAST_BITBANG_HW_SUPPORT 1
 #else
 #define FAST_BITBANG_HW_SUPPORT 0
@@ -37,68 +36,49 @@ static ALWAYS_INLINE void pin_delay_asm(uint32_t delay)
 
 #if FAST_BITBANG_HW_SUPPORT
 
-static ALWAYS_INLINE void swdp_ll_pin_input(void *const base, uint32_t port, uint8_t pin)
+static ALWAYS_INLINE void swdp_ll_pin_input(void *const base, uint8_t pin)
 {
 #if defined(CONFIG_SOC_SERIES_NRF52X) || defined(CONFIG_SOC_SERIES_NRF53X)
 	NRF_GPIO_Type * reg = base;
 
 	reg->PIN_CNF[pin] = 0b0000;
-#elif defined(CONFIG_SOC_FAMILY_LPC)
-	GPIO_Type *gpio_base = base;
-	gpio_base->DIRCLR[port] = BIT(pin);
 #endif
 }
 
-static ALWAYS_INLINE void swdp_ll_pin_output(void *const base, uint32_t port, uint8_t pin)
+static ALWAYS_INLINE void swdp_ll_pin_output(void *const base, uint8_t pin)
 {
 #if defined(CONFIG_SOC_SERIES_NRF52X) || defined(CONFIG_SOC_SERIES_NRF53X)
 	NRF_GPIO_Type * reg = base;
 
 	reg->PIN_CNF[pin] = 0b0001;
-#elif defined(CONFIG_SOC_FAMILY_LPC)
-	GPIO_Type *gpio_base = base;
-
-	gpio_base->DIRSET[port] = BIT(pin);
 #endif
 }
 
 
-static ALWAYS_INLINE void swdp_ll_pin_set(void *const base, uint32_t port, uint8_t pin)
+static ALWAYS_INLINE void swdp_ll_pin_set(void *const base, uint8_t pin)
 {
 #if defined(CONFIG_SOC_SERIES_NRF52X) || defined(CONFIG_SOC_SERIES_NRF53X)
 	NRF_GPIO_Type * reg = base;
 
 	reg->OUTSET = BIT(pin);
-#elif defined(CONFIG_SOC_FAMILY_LPC)
-	GPIO_Type *gpio_base = base;
-
-	gpio_base->SET[port] = BIT(pin);
 #endif
 }
 
-static ALWAYS_INLINE void swdp_ll_pin_clr(void *const base, uint32_t port, uint8_t pin)
+static ALWAYS_INLINE void swdp_ll_pin_clr(void *const base, uint8_t pin)
 {
 #if defined(CONFIG_SOC_SERIES_NRF52X) || defined(CONFIG_SOC_SERIES_NRF53X)
 	NRF_GPIO_Type * reg = base;
 
 	reg->OUTCLR = BIT(pin);
-#elif defined(CONFIG_SOC_FAMILY_LPC)
-	GPIO_Type *gpio_base = base;
-
-	gpio_base->CLR[port] = BIT(pin);
 #endif
 }
 
-static ALWAYS_INLINE uint32_t swdp_ll_pin_get(void *const base, uint32_t port, uint8_t pin)
+static ALWAYS_INLINE uint32_t swdp_ll_pin_get(void *const base, uint8_t pin)
 {
 #if defined(CONFIG_SOC_SERIES_NRF52X) || defined(CONFIG_SOC_SERIES_NRF53X)
 	NRF_GPIO_Type * reg = base;
 
 	return ((reg->IN >> pin) & 1);
-#elif defined(CONFIG_SOC_FAMILY_LPC)
-	GPIO_Type *gpio_base = base;
-
-	return ((gpio_base->PIN[port] >> pin) & 1);
 #endif
 }
 

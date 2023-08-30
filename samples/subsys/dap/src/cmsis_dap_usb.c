@@ -10,6 +10,9 @@
 
 #include "cmsis_dap_usb.h"
 
+#define DAP_USB_EP_IN	0x81
+#define DAP_USB_EP_OUT	0x01
+
 uint8_t rx_buf[CONFIG_CMSIS_DAP_PACKET_SIZE];
 uint8_t tx_buf[CONFIG_CMSIS_DAP_PACKET_SIZE];
 
@@ -40,7 +43,7 @@ LOG_MODULE_REGISTER(cmsis_dap);
 #define COMPATIBLE_ID_WINUSB \
 	'W', 'I', 'N', 'U', 'S', 'B', 0x00, 0x00
 
-static struct msosv2_descriptor_t {
+static struct msosv2_descriptor {
 	struct msosv2_descriptor_set_header header;
 #if defined(CONFIG_USB_COMPOSITE_DEVICE)
 	struct msosv2_function_subset_header cmsis_dap_v2_subset_header;
@@ -55,7 +58,7 @@ static struct msosv2_descriptor_t {
 		.wLength = sizeof(struct msosv2_descriptor_set_header),
 		.wDescriptorType = MS_OS_20_SET_HEADER_DESCRIPTOR,
 		.dwWindowsVersion = 0x06030000,
-		.wTotalLength = sizeof(struct msosv2_descriptor_t),
+		.wTotalLength = sizeof(struct msosv2_descriptor),
 	},
 #if defined(CONFIG_USB_COMPOSITE_DEVICE)
 	.cmsis_dap_v2_subset_header = {
@@ -245,9 +248,9 @@ USBD_CLASS_DESCR_DEFINE(primary, 0) struct {
 	struct usb_ep_descriptor if0_in_ep;
 } __packed dapusb_desc = {
 	.if0 = INITIALIZER_IF(2, USB_BCC_VENDOR),
-	.if0_out_ep = INITIALIZER_IF_EP(AUTO_EP_OUT, USB_DC_EP_BULK,
+	.if0_out_ep = INITIALIZER_IF_EP(DAP_USB_EP_OUT, USB_DC_EP_BULK,
 					CONFIG_CMSIS_DAP_PACKET_SIZE, 0),
-	.if0_in_ep = INITIALIZER_IF_EP(AUTO_EP_IN, USB_DC_EP_BULK,
+	.if0_in_ep = INITIALIZER_IF_EP(DAP_USB_EP_IN, USB_DC_EP_BULK,
 				       CONFIG_CMSIS_DAP_PACKET_SIZE, 0),
 };
 
@@ -255,11 +258,11 @@ USBD_CLASS_DESCR_DEFINE(primary, 0) struct {
 static struct usb_ep_cfg_data dapusb_ep_data[] = {
 	{
 		.ep_cb	= usb_transfer_ep_callback,
-		.ep_addr = AUTO_EP_OUT
+		.ep_addr = DAP_USB_EP_OUT
 	},
 	{
 		.ep_cb = usb_transfer_ep_callback,
-		.ep_addr = AUTO_EP_IN
+		.ep_addr = DAP_USB_EP_IN
 	}
 };
 
