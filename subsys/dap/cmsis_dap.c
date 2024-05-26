@@ -845,15 +845,6 @@ static uint16_t dap_writeabort(struct dap_context *const ctx,
 	return retval;
 }
 
-/* Process DAP Vendor command request */
-static uint16_t dap_process_vendor_cmd(struct dap_context *const ctx,
-				       const uint8_t *const request,
-				       uint8_t *const response)
-{
-	response[0] = ID_DAP_INVALID;
-	return 1U;
-}
-
 /*
  * Process DAP command request and prepare response
  *   request:  pointer to request data
@@ -870,10 +861,6 @@ static uint16_t dap_process_cmd(struct dap_context *const ctx,
 	uint16_t retval;
 
 	LOG_HEXDUMP_DBG(request, 8, "req");
-
-	if ((*request >= ID_DAP_VENDOR0) && (*request <= ID_DAP_VENDOR31)) {
-		return dap_process_vendor_cmd(ctx, request, response);
-	}
 
 	*response++ = *request;
 	LOG_DBG("request 0x%02x", *request);
