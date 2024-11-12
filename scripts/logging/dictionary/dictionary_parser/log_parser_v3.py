@@ -195,7 +195,11 @@ class LogParserV3(LogParser):
                 if stack_align > 1:
                     arg_offset = int((arg_offset + (align - 1)) / align) * align
 
-                one_arg = struct.unpack_from(unpack_fmt, arg_list, arg_offset)[0]
+                try:
+                    one_arg = struct.unpack_from(unpack_fmt, arg_list, arg_offset)[0]
+                except struct.error:
+                    logger.error(f"{unpack_fmt} at offset {arg_offset} failed")
+                    one_arg = 0
 
                 if fmt == 's':
                     one_arg = self.__get_string(one_arg, arg_offset, string_tbl)
@@ -337,7 +341,11 @@ class LogParserV3(LogParser):
         args = self.process_one_fmt_str(fmt_str, logdata[offset:offset_end_of_args], string_tbl)
 
         fmt_str = formalize_fmt_string(fmt_str)
-        log_msg = fmt_str % args
+        try:
+            log_msg = fmt_str % args
+        except (TypeError, ValueError):
+            logger.error(f"{fmt_str} % {args} failed")
+            log_msg = ""
 
         if level == 0:
             print(f"{log_msg}", end='')
